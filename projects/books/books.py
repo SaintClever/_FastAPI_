@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Body
 
 app = FastAPI()
 
@@ -46,6 +46,7 @@ async def read_category_by_query(category: str):
 
 
 # Path and Query Parameter
+# http://127.0.0.1:8000/books/Author%20one/?category=science
 @app.get("/books/{book_author}/")
 async def read_author_category_by_query(book_author: str, category: str):
     books_to_return = []
@@ -58,3 +59,15 @@ async def read_author_category_by_query(book_author: str, category: str):
             books_to_return.append(book)
 
     return books_to_return
+
+
+@app.post("/books/create_book")
+async def create_book(new_book=Body()):
+    BOOKS.append(new_book)
+
+
+@app.put("/books/update_book")
+async def update_book(updated_book=Body()):
+    for i in range(len(BOOKS)):
+        if BOOKS[i].get("title").casefold() == updated_book.get("title").casefold():
+            BOOKS[i] = updated_book
