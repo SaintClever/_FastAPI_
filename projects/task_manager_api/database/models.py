@@ -6,7 +6,7 @@ from schemes import StatusType
 
 class Task(Base):
     __tablename__ = "tasks"
-    id = Column(integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True, index=True)
     name = Column(String(20))
     description = Column(Text())
     status = Column(Enum(StatusType))
