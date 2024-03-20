@@ -49,8 +49,8 @@ async def read_category_by_query(category: str):
 # Here is your opportunity to keep learning!
 # 1. Create a new API Endpoint that can fetch all books from a specific author using either Path Parameters or Query Parameters.
 # Query Parameter
-@app.get("/books/author/")
-async def read_by_author_query(author: str):
+@app.get("/books/byauthor/")
+async def read_books_by_author_query(author: str):
     books_to_return = []
 
     for book in BOOKS:
@@ -61,8 +61,8 @@ async def read_by_author_query(author: str):
 
 
 # Path Parameter
-@app.get("/books/author/{author}")
-async def read_by_author_param(author: str):
+@app.get("/books/byauthor/{author}")
+async def read_books_by_author_path(author: str):
     books_to_return = []
 
     for book in BOOKS:
