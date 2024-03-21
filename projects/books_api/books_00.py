@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Body
+from fastapi import Body, FastAPI
 
 app = FastAPI()
 
@@ -13,14 +13,14 @@ BOOKS = [
 ]
 
 
-@app.get("/books")
-async def read_all_books():
-    return BOOKS
+# @app.get("/books")
+# async def read_all_books():
+#     return BOOKS
 
 
-@app.get("/books/mybook")
-async def read_all_books():
-    return {"book_title": "My favorite book!"}
+# @app.get("/books/mybook")
+# async def read_all_books():
+#     return {"book_title": "My favorite book!"}
 
 
 # Path Parameter
