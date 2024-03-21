@@ -1,5 +1,6 @@
-from fastapi import FastAPI, Body
-from pydantic import BaseModel
+from fastapi import FastAPI
+from pydantic import BaseModel, Field
+from typing import Optional
 
 # The three biggest are:
 # .dict() function is now renamed to .model_dump()
@@ -26,11 +27,11 @@ class Book:
 
 
 class BookRequest(BaseModel):
-    id: int
-    title: str
-    author: str
-    description: str
-    rating: int
+    id: Optional[int] = None
+    title: str = Field(min_length=3)
+    author: str = Field(min_length=1)
+    description: str = Field(min_length=1, max_length=100)
+    rating: int = Field(gt=0, lt=6)
 
 
 BOOKS = [
@@ -53,4 +54,14 @@ async def read_all_books():
 async def create_book(book_request: BookRequest):
     # dump the information of book_request into Book, which key/values of BookRequest: id=0 title='string' author='string' description='string' rating=0
     new_book = Book(**book_request.model_dump())
-    BOOKS.append(new_book)
+    BOOKS.append(find_book_id(new_book))
+
+
+def find_book_id(book: Book):
+    # if len(BOOKS) > 0:
+    #     book.id = BOOKS[-1].id + 1
+    # else:
+    #     book.id = 1
+
+    book.id = 1 if len(BOOKS) == 0 else BOOKS[-1].id + 1
+    return book
