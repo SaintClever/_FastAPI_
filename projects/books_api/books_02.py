@@ -17,21 +17,25 @@ class Book:
     author: str
     description: str
     rating: int
+    published_date: int
 
-    def __init__(self, id, title, author, description, rating):
+    def __init__(self, id, title, author, description, rating, published_date):
         self.id = id
         self.title = title
         self.author = author
         self.description = description
         self.rating = rating
+        self.published_date = published_date
 
 
+# We use the bookRequest for a put or post becase the user in posting or puting information / createding or updating data
 class BookRequest(BaseModel):
     id: Optional[int] = Field(default=None, description="id is not needed")
     title: str = Field(min_length=3)
     author: str = Field(min_length=1)
     description: str = Field(min_length=1, max_length=100)
     rating: int = Field(gt=0, lt=6)
+    published_date: int = Field(gt=1000, lt=3000)
 
     class Config:
         json_schema_extra = {
@@ -40,17 +44,18 @@ class BookRequest(BaseModel):
                 "author": "codingwithroby",
                 "description": "A new description of a book",
                 "rating": 5,
+                "published_date": 2012,
             }
         }
 
 
 BOOKS = [
-    Book(1, "Computer Science Pro", "codingwithroby", "A very nice book!", 5),
-    Book(2, "Be Fast with FastAPI", "codingwithroby", "A great book!", 5),
-    Book(3, "Master Endpoints", "codingwithroby", "A awesome book!", 5),
-    Book(4, "HP1", "Author 1", "Book Description", 2),
-    Book(5, "HP2", "Author 2", "Book Description", 3),
-    Book(6, "HP3", "Author 3", "Book Description", 1),
+    Book(1, "Computer Science Pro", "codingwithroby", "A very nice book!", 5, 1881),
+    Book(2, "Be Fast with FastAPI", "codingwithroby", "A great book!", 5, 1912),
+    Book(3, "Master Endpoints", "codingwithroby", "A awesome book!", 5, 1996),
+    Book(4, "HP1", "Author 1", "Book Description", 2, 2024),
+    Book(5, "HP2", "Author 2", "Book Description", 3, 2015),
+    Book(6, "HP3", "Author 3", "Book Description", 1, 1996),
 ]
 
 
@@ -76,6 +81,7 @@ async def read_book_by_rating(book_rating: int):
     return books_to_return
 
 
+# Because we're creating data we need to use the BookRequest Scheme / blueprint. It's our body. Goes through scheme first
 @app.post("/create-book")
 # Assign an BookRequest to book_request
 async def create_book(book_request: BookRequest):
@@ -94,8 +100,38 @@ def find_book_id(book: Book):
     return book
 
 
+# Because we're updating data we need to use the BookRequest Scheme / blueprint. It's our body. Goes through scheme first
 @app.put("/books/update_book")
 async def update_book(book: BookRequest):
     for i in range(len(BOOKS)):
         if BOOKS[i].id == book.id:
             BOOKS[i] = book
+
+
+@app.delete("/books/{book_id}")
+async def delete_book(book_id: int):
+    for i in range(len(BOOKS)):
+        if BOOKS[i].id == book_id:
+            BOOKS.pop(i)
+            break
+
+
+# A query param has a trailing forward slash /
+# @app.get("/books/publication/")
+
+
+# A query param doesn't have a forward slach
+# @app.get("/books/publication/{book_published_date}")
+
+
+# A query param with a path has a slash
+# @app.get("/books/publication/{book_published_date}/")
+@app.get("/books/publication/")
+async def read_book_by_year(book_published_date: int):
+    books_to_return = []
+
+    for book in BOOKS:
+        if book_published_date == book.published_date:
+            books_to_return.append(book)
+
+    return books_to_return
