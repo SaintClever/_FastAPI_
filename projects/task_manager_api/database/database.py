@@ -5,7 +5,7 @@ DATABASE_URL = "mysql+mysqlconnector://root:root@localhost:3306/tasks"
 # DATABASE_URL = "mysql+mysqlconnector://<USER>:<PASSWORD>@<HOST>:<PORT>/<DATABASE>"
 
 user = "root"
-password = "****MySQL*"
+password = "**********"
 database = "tasks"
 host = "localhost"
 port = 3306
