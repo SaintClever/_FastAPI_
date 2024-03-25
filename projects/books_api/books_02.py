@@ -81,6 +81,27 @@ async def read_book_by_rating(book_rating: int):
     return books_to_return
 
 
+# A query param has a trailing forward slash /
+# @app.get("/books/publication/")
+
+
+# A query param doesn't have a forward slach
+# @app.get("/books/publication/{book_published_date}")
+
+
+# A query param with a path has a slash
+# @app.get("/books/publication/{book_published_date}/")
+@app.get("/books/publish/")
+async def read_book_by_publish_date(book_published_date: int):
+    books_to_return = []
+
+    for book in BOOKS:
+        if book_published_date == book.published_date:
+            books_to_return.append(book)
+
+    return books_to_return
+
+
 # Because we're creating data we need to use the BookRequest Scheme / blueprint. It's our body. Goes through scheme first
 @app.post("/create-book")
 # Assign an BookRequest to book_request
@@ -114,24 +135,3 @@ async def delete_book(book_id: int):
         if BOOKS[i].id == book_id:
             BOOKS.pop(i)
             break
-
-
-# A query param has a trailing forward slash /
-# @app.get("/books/publication/")
-
-
-# A query param doesn't have a forward slach
-# @app.get("/books/publication/{book_published_date}")
-
-
-# A query param with a path has a slash
-# @app.get("/books/publication/{book_published_date}/")
-@app.get("/books/publication/")
-async def read_book_by_year(book_published_date: int):
-    books_to_return = []
-
-    for book in BOOKS:
-        if book_published_date == book.published_date:
-            books_to_return.append(book)
-
-    return books_to_return
