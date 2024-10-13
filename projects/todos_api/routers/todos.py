@@ -3,7 +3,7 @@ from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
 from fastapi import APIRouter, Depends, HTTPException, Path, status
 from models import Todos
-from database import SessionLocal
+from projects.car_info_viewer.database import SessionLocal
 
 router = APIRouter()
 

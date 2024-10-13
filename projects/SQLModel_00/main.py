@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException, Depends, Query
 from typing import List
 from models import Users
 from schemas import UserCreate
-from database import get_session
+from projects.car_info_viewer.database import get_session
 
 app = FastAPI()
 

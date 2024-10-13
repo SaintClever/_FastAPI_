@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 import models
-from database import engine
+from projects.car_info_viewer.database import engine
 from routers import auth, todos
 
 app = FastAPI()

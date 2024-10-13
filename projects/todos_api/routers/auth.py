@@ -1,6 +1,6 @@
 from typing import Annotated
 from sqlalchemy.orm import Session
-from database import SessionLocal
+from projects.car_info_viewer.database import SessionLocal
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel
 from models import Users

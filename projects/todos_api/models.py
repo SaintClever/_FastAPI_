@@ -1,5 +1,5 @@
 from enum import unique
-from database import Base
+from projects.car_info_viewer.database import Base
 from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
 
 
